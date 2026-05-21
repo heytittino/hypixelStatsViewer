@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypixel Stats Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>⚔️ Hypixel Stats Viewer</h1>
+                <p class="subtitle">Check all your Hypixel player statistics</p>
+            </div>
+        </header>
+
+        <main>
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="usernameInput" 
+                        class="username-input" 
+                        placeholder="Enter Minecraft username..."
+                        autocomplete="off"
+                    >
+                    <button id="searchBtn" class="search-btn">Search Player</button>
+                </div>
+                <div class="api-key-section">
+                    <details>
+                        <summary>🔑 Set API Key</summary>
+                        <div class="api-key-content">
+                            <p>Hypixel API requires an API key for full access. Get yours from <a href="https://developer.hypixel.net/" target="_blank">developer.hypixel.net</a></p>
+                            <input 
+                                type="password" 
+                                id="apiKeyInput" 
+                                class="api-key-input" 
+                                placeholder="Paste your Hypixel API key here..."
+                            >
+                            <button id="saveApiKeyBtn" class="save-api-key-btn">Save API Key</button>
+                            <p id="apiKeyStatus" class="status-text"></p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner hidden">
+                <div class="spinner"></div>
+                <p>Loading player data...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message hidden"></div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message hidden"></div>
+
+            <!-- Player Info Section -->
+            <section id="playerInfo" class="player-info-section hidden">
+                <div class="player-header">
+                    <div class="player-avatar">
+                        <img id="playerHead" src="" alt="Player Head">
+                    </div>
+                    <div class="player-header-info">
+                        <h2 id="playerName"></h2>
+                        <p id="playerLevel" class="player-level"></p>
+                        <p id="playerJoinDate" class="join-date"></p>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-container">
+                    <!-- General Stats -->
+                    <section class="stats-section">
+                        <h3>📊 General Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Coins</span>
+                                <span id="totalCoins" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Achievement Points</span>
+                                <span id="achievementPoints" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Karma</span>
+                                <span id="karma" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">First Login</span>
+                                <span id="firstLogin" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SkyBlock Stats -->
+                    <section class="stats-section">
+                        <h3>🌾 SkyBlock Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Sky Shards</span>
+                                <span id="skyShards" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Purse</span>
+                                <span id="skyblockPurse" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Bank Balance</span>
+                                <span id="bankBalance" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Profiles</span>
+                                <span id="skyblockProfiles" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Bedwars Stats -->
+                    <section class="stats-section">
+                        <h3>🛏️ Bedwars Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span id="bedwarsWins" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Losses</span>
+                                <span id="bedwarsLosses" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">W/L Ratio</span>
+                                <span id="bedwarsRatio" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Final Kills</span>
+                                <span id="bedwarsFinalKills" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Final Deaths</span>
+                                <span id="bedwarsFinalDeaths" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Stars</span>
+                                <span id="bedwarsStars" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Skywars Stats -->
+                    <section class="stats-section">
+                        <h3>⚔️ Skywars Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span id="skywarsWins" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Losses</span>
+                                <span id="skywarsLosses" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Kills</span>
+                                <span id="skywarsKills" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Deaths</span>
+                                <span id="skywarDeaths" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Blitz Stats -->
+                    <section class="stats-section">
+                        <h3>⚡ Blitz Survival Games</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span id="blitzWins" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Kills</span>
+                                <span id="blitzKills" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Deaths</span>
+                                <span id="blitzDeaths" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Duels Stats -->
+                    <section class="stats-section">
+                        <h3>🤝 Duels Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span id="duelsWins" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Losses</span>
+                                <span id="duelsLosses" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">W/L Ratio</span>
+                                <span id="duelsRatio" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Pit Stats -->
+                    <section class="stats-section">
+                        <h3>🔥 The Pit Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Prestige</span>
+                                <span id="pitPrestige" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Level</span>
+                                <span id="pitLevel" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Kills</span>
+                                <span id="pitKills" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Deaths</span>
+                                <span id="pitDeaths" class="stat-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Hypixel Stats Viewer | Data from Hypixel API | Not affiliated with Hypixel</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
