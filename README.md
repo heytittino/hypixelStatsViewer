@@ -16,11 +16,8 @@ A simple web application to view Minecraft player statistics from Hypixel.
 
 ### Installation
 
-1. **Clone or download** this repository
-2. **Open `index.html`** in your browser, or run a local server:
-   ```bash
-   python -m http.server 8000
-   ```
+1. Clone or download this repository
+2. Run the host.bat 
 3. Navigate to `http://localhost:8000`
 
 ### Getting Started
