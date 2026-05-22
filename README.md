@@ -6,7 +6,6 @@ A simple web application to view Minecraft player statistics from Hypixel.
 
 - Search players by username
 - View player statistics and achievements
-- Clean, responsive interface
 
 ## Setup
 
