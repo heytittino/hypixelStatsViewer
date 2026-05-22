@@ -24,3 +24,5 @@ A simple web application to view Minecraft player statistics from Hypixel.
 1. Enter your Hypixel API key in the settings section
 2. Enter a Minecraft username
 3. Click "Search Player" to view stats
+
+***THIS PROJECT IS IN NO WAY ASSICIATED OR AFFILIATED WITH MICROSOFT/XBOX, MOJANG OR HYPIXELÜ***
