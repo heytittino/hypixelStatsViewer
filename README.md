@@ -20,13 +20,8 @@ A simple web application to view Minecraft player statistics from Hypixel.
 2. Run the host.bat 
 3. Navigate to `http://localhost:8000`
 
-### Getting Started
+### Usage
 
 1. Enter your Hypixel API key in the settings section
 2. Enter a Minecraft username
 3. Click "Search Player" to view stats
-
-## Scripts
-
-- `npm start` - Runs the app on port 8000
-- `npm run dev` - Runs the app on port 3000
