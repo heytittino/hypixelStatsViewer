@@ -1,4 +1,5 @@
 // API Configuration
+const CORS_PROXY = 'https://api.allorigins.win/get?url=';
 const HYPIXEL_API_BASE = 'https://api.hypixel.net';
 const PLAYER_NAMES_API = 'https://api.mojang.com/users/profiles/minecraft';
 
@@ -103,14 +104,16 @@ async function handleSearch() {
  */
 async function getPlayerUUID(username) {
     try {
-        const response = await fetch(`${PLAYER_NAMES_API}/${username}`);
+        const url = `${PLAYER_NAMES_API}/${username}`;
+        const response = await fetch(`${CORS_PROXY}${encodeURIComponent(url)}`);
         if (!response.ok) {
             if (response.status === 404) {
                 return null;
             }
             throw new Error('Failed to fetch player UUID');
         }
-        const data = await response.json();
+        const proxyData = await response.json();
+        const data = JSON.parse(proxyData.contents);
         return data.id;
     } catch (error) {
         throw error;
@@ -122,7 +125,8 @@ async function getPlayerUUID(username) {
  */
 async function getPlayerData(uuid) {
     try {
-        const response = await fetch(`${HYPIXEL_API_BASE}/player?uuid=${uuid}&key=${apiKey}`);
+        const url = `${HYPIXEL_API_BASE}/player?uuid=${uuid}&key=${apiKey}`;
+        const response = await fetch(`${CORS_PROXY}${encodeURIComponent(url)}`);
         
         if (!response.ok) {
             if (response.status === 403) {
@@ -133,7 +137,8 @@ async function getPlayerData(uuid) {
             throw new Error('Failed to fetch player data from Hypixel');
         }
 
-        const data = await response.json();
+        const proxyData = await response.json();
+        const data = JSON.parse(proxyData.contents);
         if (!data.success) {
             if (data.cause === 'Unauthorized') {
                 throw new Error('Invalid API Key. Please check your Hypixel API key.');
